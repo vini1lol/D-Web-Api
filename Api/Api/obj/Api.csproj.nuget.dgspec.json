@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Vinicius Santos\\source\\repos\\D-Web-Api\\Api\\Api\\Api.csproj": {}
+    "C:\\Users\\Vinicius Santos\\source\\repos\\D-Web-Api\\api\\api\\api.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Vinicius Santos\\source\\repos\\D-Web-Api\\Api\\Api\\Api.csproj": {
+    "C:\\Users\\Vinicius Santos\\source\\repos\\D-Web-Api\\api\\api\\api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Vinicius Santos\\source\\repos\\D-Web-Api\\Api\\Api\\Api.csproj",
-        "projectName": "Api",
-        "projectPath": "C:\\Users\\Vinicius Santos\\source\\repos\\D-Web-Api\\Api\\Api\\Api.csproj",
+        "projectUniqueName": "C:\\Users\\Vinicius Santos\\source\\repos\\D-Web-Api\\api\\api\\api.csproj",
+        "projectName": "api",
+        "projectPath": "C:\\Users\\Vinicius Santos\\source\\repos\\D-Web-Api\\api\\api\\api.csproj",
         "packagesPath": "C:\\Users\\Vinicius Santos\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Vinicius Santos\\source\\repos\\D-Web-Api\\Api\\Api\\obj\\",
+        "outputPath": "C:\\Users\\Vinicius Santos\\source\\repos\\D-Web-Api\\api\\api\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Vinicius Santos\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -40,32 +40,6 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
-            "Microsoft.AspNetCore.Authentication": {
-              "target": "Package",
-              "version": "[2.2.0, )"
-            },
-            "Microsoft.AspNetCore.Authentication.JwtBearer": {
-              "target": "Package",
-              "version": "[6.0.10, )"
-            },
-            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
-              "target": "Package",
-              "version": "[6.0.10, )"
-            },
-            "Microsoft.EntityFrameworkCore": {
-              "target": "Package",
-              "version": "[6.0.10, )"
-            },
-            "Microsoft.EntityFrameworkCore.SqlServer": {
-              "target": "Package",
-              "version": "[6.0.10, )"
-            },
-            "Microsoft.EntityFrameworkCore.Tools": {
-              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
-              "suppressParent": "All",
-              "target": "Package",
-              "version": "[6.0.10, )"
-            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.2.3, )"

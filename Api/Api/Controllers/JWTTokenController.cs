@@ -1,6 +1,5 @@
 ﻿using Api.Context;
 using Api.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -29,7 +28,7 @@ namespace Api.Controllers
             if (user != null && user.UserName != null && user.Password != null)
             {
                 var userData = await GetUser(user.UserName, user.Password);
-                var jwt = _configuration.GetSection("JWT").Get<Jwt>();
+                var jwt = _configuration.GetSection("Jwt").Get<Jwt>();
 
                 if (userData != null)
                 {
@@ -67,6 +66,7 @@ namespace Api.Controllers
             }
         }
 
+        [HttpGet]
         public async Task<User> GetUser(string userName, string password)
         {
             return await _context.Users.FirstOrDefaultAsync(u => u.UserName == userName && u.Password == password);

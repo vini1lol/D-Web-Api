@@ -15,7 +15,7 @@ namespace Api.Maps
             builder.Property(x => x.Bairro).IsRequired().HasMaxLength(50);
             builder.Property(x => x.Cidade).IsRequired().HasMaxLength(50);
             builder.Property(x => x.Estado).IsRequired().HasMaxLength(2);
-            builder.Property(x => x.ClienteId).IsRequired();
+            builder.Property(x => x.UserId).IsRequired();
         }
     }
 }

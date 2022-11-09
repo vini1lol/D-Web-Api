@@ -3,15 +3,15 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Api.Models
 {
-    public class Pedido
+    public class Compra
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int PedidoId { get; set; }
+        public int CompraId { get; set; }
         public string Descricao { get; set; }
-        public DateTime DataHoraCadastro { get; set; }
-        public int ClienteId { get; set; }
-        public Cliente Cliente { get; set; }
+        public DateTime DataCadastro { get; set; }
+        public int UserId { get; set; }
+        public User User { get; set; }
         
         public ICollection<Produto> Produtos { get; set; }
 

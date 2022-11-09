@@ -12,6 +12,7 @@ namespace Api.Maps
             builder.Property(x => x.Nome).IsRequired().HasMaxLength(50);
             builder.Property(x => x.Descricao).IsRequired().HasMaxLength(200);
             builder.Property(x => x.Preco).IsRequired();
+            builder.Property(x => x.Status);
         }
     }
 }

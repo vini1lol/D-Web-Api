@@ -11,7 +11,8 @@ namespace Api.Models
         public string Nome { get; set; }
         public string Descricao { get; set; }
         public decimal Preco { get; set; }
+        public bool Status { get; set; }
 
-        public ICollection<Pedido> Pedidos { get; set; }
+        public ICollection<Compra> Compras { get; set; }
     }
 }

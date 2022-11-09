@@ -11,16 +11,16 @@ namespace Api.Context
         }
 
         public DbSet<User> Users {get;set;}
-        public DbSet<Cliente> Clientes {get;set;}
         public DbSet<Endereco> Enderecos {get;set;}
-        public DbSet<Pedido> Pedidos {get;set;}
+        public DbSet<Compra> Compras {get;set;}
         public DbSet<Produto> Produtos {get;set;}
+        public DbSet<CompraProduto> CompraProdutos { get;set;}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new ClienteMap());
+            modelBuilder.ApplyConfiguration(new UserMap());
             modelBuilder.ApplyConfiguration(new EnderecoMap());
-            modelBuilder.ApplyConfiguration(new PedidoMap());
+            modelBuilder.ApplyConfiguration(new CompraMap());
             modelBuilder.ApplyConfiguration(new ProdutoMap());
 
             base.OnModelCreating(modelBuilder);

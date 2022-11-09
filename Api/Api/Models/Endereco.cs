@@ -14,8 +14,8 @@ namespace Api.Models
         public string Bairro { get; set; }
         public string Cidade { get; set; }
         public string Estado { get; set; }
-        public int ClienteId { get; set; }
+        public int UserId { get; set; }
 
-        public Cliente Cliente { get; set; }
+        public User Users { get; set; }
     }
 }

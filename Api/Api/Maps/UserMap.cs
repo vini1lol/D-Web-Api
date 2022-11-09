@@ -4,12 +4,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Api.Maps
 {
-    public class ClienteMap : IEntityTypeConfiguration<Cliente>
+    public class UserMap : IEntityTypeConfiguration<User>
     {
-        public void Configure(EntityTypeBuilder<Cliente> builder)
+        public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.HasKey(x => x.ClienteId);
-            builder.Property(x => x.Nome).IsRequired().HasMaxLength(150);
+            builder.HasKey(x => x.UserId);
+            builder.Property(x => x.UserName).IsRequired().HasMaxLength(150);
             builder.Property(x => x.Email).IsRequired().HasMaxLength(100);
             builder.Property(x => x.Idade).IsRequired();
             builder.Property(x => x.Telefone);

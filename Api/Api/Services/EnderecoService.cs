@@ -1,10 +1,11 @@
 ﻿using Api.Context;
 using Api.Models;
+using Api.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Api.Services
 {
-    public class EnderecoService
+    public class EnderecoService : IEnderecoService
     {
         private readonly ApplicationDbContext _dbContext;
 

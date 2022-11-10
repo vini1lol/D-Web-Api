@@ -15,6 +15,6 @@ namespace Api.Models
         public int Telefone { get; set; }
         public DateTime DataNascimento { get; set; }
         public Endereco Endereco { get; set; }
-        public IEnumerable<Compra> Compras { get; set; }
+        public IEnumerable<Compra>? Compras { get; set; }
     }
 }

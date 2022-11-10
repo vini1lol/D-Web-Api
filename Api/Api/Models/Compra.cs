@@ -11,9 +11,11 @@ namespace Api.Models
         public string Descricao { get; set; }
         public DateTime DataCadastro { get; set; }
         public int UserId { get; set; }
+
+        [ForeignKey(nameof(UserId))]
         public User User { get; set; }
         
-        public ICollection<Produto> Produtos { get; set; }
+        public IEnumerable<CompraProduto> CompraProdutos { get; set; }
 
     }
 }

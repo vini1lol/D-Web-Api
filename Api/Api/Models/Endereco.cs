@@ -16,6 +16,7 @@ namespace Api.Models
         public string Estado { get; set; }
         public int UserId { get; set; }
 
-        public User Users { get; set; }
+        [ForeignKey(nameof(UserId))]
+        public User? Users { get; set; }
     }
 }

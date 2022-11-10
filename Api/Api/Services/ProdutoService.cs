@@ -1,10 +1,11 @@
 ﻿using Api.Context;
 using Api.Models;
+using Api.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Api.Services
 {
-    public class ProdutoService
+    public class ProdutoService : IProdutoService
     {
         private readonly ApplicationDbContext _dbContext;
 
@@ -15,7 +16,14 @@ namespace Api.Services
 
         public async Task<Produto> BuscarPorId(int id)
         {
-            return await _dbContext.Produtos.FirstOrDefaultAsync(x => x.ProdutoId == id);
+            Produto produto = await _dbContext.Produtos.FirstOrDefaultAsync(x => x.ProdutoId == id);
+
+            if (produto == null)
+            {
+                throw new Exception($"Produto com ID {id} não foi encontrado no banco de dados.");
+            }
+
+            return produto;
         }
 
         public async Task<List<Produto>> BuscarTodosProdutos()
@@ -59,7 +67,9 @@ namespace Api.Services
                 throw new Exception($"Produto com ID {id} não foi encontrado no banco de dados.");
             }
 
-            _dbContext.Produtos.Remove(produtoApagar);
+            produtoApagar.Status = false;
+
+            _dbContext.Produtos.Update(produtoApagar);
             await _dbContext.SaveChangesAsync();
 
             return true;

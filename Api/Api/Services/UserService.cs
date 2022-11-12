@@ -2,6 +2,8 @@
 using Api.Models;
 using Api.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
+using System.Text.Json;
 
 namespace Api.Services
 {
@@ -27,14 +29,8 @@ namespace Api.Services
 
         public async Task<User> Adicionar(User user)
         {
-            Endereco endereco = user.Endereco;
-            user.Endereco = null;
-
             await _dbContext.Users.AddAsync(user);
             await _dbContext.SaveChangesAsync();
-
-            endereco.UserId = user.UserId;
-            user.Endereco = await _enderecoService.Adicionar(endereco);
 
             return user;
         }

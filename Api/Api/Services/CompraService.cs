@@ -1,10 +1,11 @@
 ﻿using Api.Context;
 using Api.Models;
+using Api.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Api.Services
 {
-    public class CompraService
+    public class CompraService : ICompraService
     {
         private readonly ApplicationDbContext _dbContext;
 

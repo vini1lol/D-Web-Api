@@ -41,7 +41,7 @@ namespace Api.Services
                 throw new Exception($"Compra com ID {id} não foi encontrada no banco de dados.");
             }
 
-            compraAlterar.Descricao = compra.Descricao;
+            compraAlterar.Quantidade = compra.Quantidade;
             compraAlterar.DataCadastro = compra.DataCadastro;
 
             _dbContext.Compras.Update(compraAlterar);

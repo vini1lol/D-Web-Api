@@ -1,11 +1,11 @@
 ﻿using Api.Models;
-using Api.Services;
 using Api.Services.Interfaces;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
@@ -31,6 +31,7 @@ namespace Api.Controllers
             return Ok(user);
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public async Task<ActionResult<User>> Adicionar([FromBody] User user)
         {
@@ -41,7 +42,6 @@ namespace Api.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult<User>> Atualizar([FromBody] User user, int id)
         {
-            user.UserId = id;
             User produtoAtualizar = await _userService.Atualizar(id, user);
             return Ok(produtoAtualizar);
         }

@@ -8,11 +8,11 @@ namespace Api.Maps
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.HasKey(x => x.Id);
+            builder.HasKey(x => x.UserId);
             builder.Property(x => x.UserName).IsRequired().HasMaxLength(150);
             builder.Property(x => x.Email).IsRequired().HasMaxLength(100);
             builder.Property(x => x.Idade).IsRequired();
-            builder.Property(x => x.PhoneNumber);
+            builder.Property(x => x.Telefone);
             builder.Property(x => x.DataNascimento).IsRequired();
         }
     }

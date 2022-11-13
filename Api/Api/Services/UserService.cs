@@ -19,7 +19,7 @@ namespace Api.Services
 
         public async Task<User> BuscarPorId(int id)
         {
-            return await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == id);
+            return await _dbContext.Users.FirstOrDefaultAsync(x => x.UserId == id);
         }
 
         public async Task<List<User>> BuscarTodosUsuarios()
@@ -47,7 +47,7 @@ namespace Api.Services
             userAlterar.UserName = user.UserName;
             userAlterar.Email = user.Email;
             userAlterar.Password = user.Password;
-            userAlterar.PhoneNumber = user.PhoneNumber;
+            userAlterar.Telefone = user.Telefone;
             userAlterar.Idade = user.Idade;
             userAlterar.DataNascimento = user.DataNascimento;
 

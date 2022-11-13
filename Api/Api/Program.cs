@@ -1,9 +1,7 @@
 using Api.Context;
-using Api.Models;
 using Api.Services;
 using Api.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -25,13 +23,7 @@ builder.Services.AddControllersWithViews()
 
 builder.Services.AddDbContext<ApplicationDbContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 
-builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddRoles<IdentityRole>()
-    .AddEntityFrameworkStores<ApplicationDbContext>();
-
 builder.Services.AddScoped<IProdutoService, ProdutoService>();
-builder.Services.AddScoped<ICompraProdutoService, CompraProdutoService>();
-builder.Services.AddScoped<ICompraService, CompraService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IEnderecoService, EnderecoService>();
 

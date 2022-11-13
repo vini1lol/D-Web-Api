@@ -1,6 +1,5 @@
 ﻿using Api.Context;
 using Api.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -16,13 +15,11 @@ namespace Api.Controllers
     {
         private readonly IConfiguration _configuration;
         private readonly ApplicationDbContext _context;
-        private readonly SignInManager<User> _signInManager;
 
-        public JWTTokenController(IConfiguration configuration, ApplicationDbContext applicationDbContext, SignInManager<User> signInManager)
+        public JWTTokenController(IConfiguration configuration, ApplicationDbContext applicationDbContext)
         {
             _configuration = configuration;
             _context = applicationDbContext;
-            _signInManager = signInManager;
         }
 
         [HttpPost]
@@ -40,7 +37,7 @@ namespace Api.Controllers
                         new Claim(JwtRegisteredClaimNames.Sub, jwt.Subject ),
                         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                         new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
-                        new Claim("Id", user.Id.ToString()),
+                        new Claim("Id", user.UserId.ToString()),
                         new Claim("UserName", user.UserName)
                     };
 
@@ -55,13 +52,7 @@ namespace Api.Controllers
                             signingCredentials: signIn
                         );
 
-                    var result = await _signInManager.PasswordSignInAsync(user.UserName, user.Password, false, lockoutOnFailure: false);
-                    if (result.Succeeded)
-                    {
-                        return Ok(new JwtSecurityTokenHandler().WriteToken(token));
-                    }
-
-                    return BadRequest("Usuario invalido");
+                    return Ok(new JwtSecurityTokenHandler().WriteToken(token));
                 }
                 else
                 {

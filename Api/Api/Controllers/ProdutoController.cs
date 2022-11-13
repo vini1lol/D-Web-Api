@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ProdutoController : ControllerBase
@@ -43,7 +42,7 @@ namespace Api.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult<Produto>> Atualizar([FromBody] Produto produto, int id)
         {
-            //produto.ProdutoId = id;
+            produto.ProdutoId = id;
             Produto produtoAtualizar = await _produtoService.Atualizar(id, produto);
             return Ok(produtoAtualizar);
         }

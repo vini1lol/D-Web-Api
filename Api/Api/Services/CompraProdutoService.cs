@@ -1,13 +1,11 @@
 ﻿using Api.Context;
 using Api.Models;
 using Api.Services.Interfaces;
-using Microsoft.EntityFrameworkCore;
 
 namespace Api.Services
 {
     public class CompraProdutoService : ICompraProdutoService
     {
-        private readonly CompraProduto _compraProduto = new();
         private readonly ApplicationDbContext _dbContext;
 
         public CompraProdutoService(ApplicationDbContext dbContext)
@@ -15,41 +13,27 @@ namespace Api.Services
             _dbContext = dbContext;
         }
 
-        public async Task<CompraProduto> Adicionar(int idCompra, int idProduto)
+        public async Task<CompraProduto> Adicionar(CompraProduto compraProduto)
         {
-            _compraProduto.CompraId = idCompra;
-            _compraProduto.ProdutoId = idProduto;
-
-            await _dbContext.CompraProdutos.AddAsync(_compraProduto);
+            await _dbContext.CompraProdutos.AddAsync(compraProduto);
             await _dbContext.SaveChangesAsync();
 
-            return _compraProduto;
+            return compraProduto;
         }
 
-        public async Task<bool> Apagar(int id)
+        public Task<bool> Apagar(int id)
         {
-            List<CompraProduto> compraProdutoApagar = await BuscarTodasPorCompras(id);
-
-            if (compraProdutoApagar.Count() == 0)
-            {
-                return false;
-            }
-
-            var i = 0;
-            do
-            {
-                _dbContext.CompraProdutos.Remove(compraProdutoApagar[i]);
-                i++;
-            } while (compraProdutoApagar.Count() != i);
-
-            await _dbContext.SaveChangesAsync();
-
-            return true;
+            throw new NotImplementedException();
         }
 
         public Task<List<CompraProduto>> BuscarTodasPorCompras(int id)
         {
-            return _dbContext.CompraProdutos.Where(x => x.CompraId == id).ToListAsync();
+            throw new NotImplementedException();
+        }
+
+        public Task<List<CompraProduto>> BuscarTodasPorProdutos(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

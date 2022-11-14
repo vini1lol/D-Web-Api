@@ -19,9 +19,9 @@ namespace Api.Services
             return await _dbContext.Compras.FirstOrDefaultAsync(x => x.CompraId == id);
         }
 
-        public async Task<List<Compra>> BuscarTodasCompras()
+        public async Task<List<Compra>> BuscarTodasCompras(int idUsuario)
         {
-            return await _dbContext.Compras.ToListAsync();
+            return await _dbContext.Compras.Where(x => x.UserId == idUsuario).ToListAsync();
         }
 
         public async Task<Compra> Adicionar(Compra compra)
@@ -41,7 +41,7 @@ namespace Api.Services
                 throw new Exception($"Compra com ID {id} não foi encontrada no banco de dados.");
             }
 
-            compraAlterar.Descricao = compra.Descricao;
+            compraAlterar.Quantidade = compra.Quantidade;
             compraAlterar.DataCadastro = compra.DataCadastro;
 
             _dbContext.Compras.Update(compraAlterar);

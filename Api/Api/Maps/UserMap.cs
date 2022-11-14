@@ -11,7 +11,6 @@ namespace Api.Maps
             builder.HasKey(x => x.UserId);
             builder.Property(x => x.UserName).IsRequired().HasMaxLength(150);
             builder.Property(x => x.Email).IsRequired().HasMaxLength(100);
-            builder.Property(x => x.Idade).IsRequired();
             builder.Property(x => x.Telefone);
             builder.Property(x => x.DataNascimento).IsRequired();
         }

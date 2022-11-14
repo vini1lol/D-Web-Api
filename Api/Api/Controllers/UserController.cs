@@ -21,6 +21,10 @@ namespace Api.Controllers
         public async Task<ActionResult<List<User>>> BuscarTodosUsuarios()
         {
             List<User> users = await _userService.BuscarTodosUsuarios();
+            if (users == null)
+            {
+                return NotFound("Usuário(s) não encontrado(s)");
+            }
             return Ok(users);
         }
 
@@ -28,6 +32,10 @@ namespace Api.Controllers
         public async Task<ActionResult<User>> BuscarPorId(int id)
         {
             User user = await _userService.BuscarPorId(id);
+            if (user == null)
+            {
+                return NotFound("Usuário não encontrado");
+            }
             return Ok(user);
         }
 
@@ -35,22 +43,30 @@ namespace Api.Controllers
         public async Task<ActionResult<User>> Adicionar([FromBody] User user)
         {
             User userAdicionar = await _userService.Adicionar(user);
-            return Ok(userAdicionar);
+            var url = Url.Action(nameof(BuscarPorId), new { id = userAdicionar.UserId }) ?? $"/{userAdicionar.UserId}";
+            return Created(url, userAdicionar);
         }
 
         [HttpPut("{id}")]
         public async Task<ActionResult<User>> Atualizar([FromBody] User user, int id)
         {
-            user.UserId = id;
-            User produtoAtualizar = await _userService.Atualizar(id, user);
-            return Ok(produtoAtualizar);
+            User userAtualizar = await _userService.Atualizar(id, user);
+            if (userAtualizar == null)
+            {
+                return BadRequest($"Usuário com ID {id} não foi encontrado no banco de dados.");
+            }
+            return Ok(userAtualizar);
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult<User>> Apagar(int id)
         {
             bool apagado = await _userService.Apagar(id);
-            return Ok(apagado);
+            if (!apagado)
+            {
+                return NotFound($"Usuário com ID {id} não foi encontrado no banco de dados.");
+            }
+            return Ok("Usuário apagado com sucesso");
         }
     }
 }

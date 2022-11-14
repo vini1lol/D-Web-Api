@@ -45,7 +45,7 @@ namespace Api.Services
 
             if (produtoAlterar == null)
             {
-                throw new Exception($"Produto com ID {id} não foi encontrado no banco de dados.");
+                return null;
             }
 
             produtoAlterar.Nome = produto.Nome;
@@ -64,7 +64,7 @@ namespace Api.Services
 
             if (produtoApagar == null)
             {
-                throw new Exception($"Produto com ID {id} não foi encontrado no banco de dados.");
+                return false;
             }
 
             produtoApagar.Status = false;

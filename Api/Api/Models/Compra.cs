@@ -8,14 +8,14 @@ namespace Api.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int CompraId { get; set; }
-        public string Descricao { get; set; }
+        public int Quantidade { get; set; }
         public DateTime DataCadastro { get; set; }
         public int UserId { get; set; }
 
         [ForeignKey(nameof(UserId))]
-        public User User { get; set; }
+        public User? User { get; set; }
         
-        public IEnumerable<CompraProduto> CompraProdutos { get; set; }
+        public IEnumerable<CompraProduto>? CompraProdutos { get; set; }
 
     }
 }

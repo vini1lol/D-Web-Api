@@ -19,9 +19,9 @@ namespace Api.Services
             return await _dbContext.Enderecos.FirstOrDefaultAsync(x => x.EnderecoId == id);
         }
 
-        public async Task<List<Endereco>> BuscarTodosEnderecos()
+        public async Task<Endereco> BuscarPorIdUsuario(int idUsuario)
         {
-            return await _dbContext.Enderecos.ToListAsync();
+            return await _dbContext.Enderecos.FirstOrDefaultAsync(x => x.UserId == idUsuario);
         }
 
         public async Task<Endereco> Adicionar(Endereco endereco)

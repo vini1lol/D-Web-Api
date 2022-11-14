@@ -10,7 +10,6 @@ namespace Api.Services
     public class UserService : IUserService
     {
         private readonly ApplicationDbContext _dbContext;
-        private readonly IEnderecoService _enderecoService;
 
         public UserService(ApplicationDbContext dbContext)
         {
@@ -41,14 +40,13 @@ namespace Api.Services
 
             if (userAlterar == null)
             {
-                throw new Exception($"Usuário com ID {id} não foi encontrado no banco de dados.");
+                return null;
             }
 
             userAlterar.UserName = user.UserName;
             userAlterar.Email = user.Email;
             userAlterar.Password = user.Password;
             userAlterar.Telefone = user.Telefone;
-            userAlterar.Idade = user.Idade;
             userAlterar.DataNascimento = user.DataNascimento;
 
             _dbContext.Users.Update(userAlterar);
@@ -63,7 +61,7 @@ namespace Api.Services
 
             if (userApagar == null)
             {
-                throw new Exception($"Usuário com ID {id} não foi encontrado no banco de dados.");
+                return false;
             }
 
             _dbContext.Users.Remove(userApagar);

@@ -22,6 +22,10 @@ namespace Api.Controllers
         public async Task<ActionResult<List<Produto>>> BuscarTodosProdutos()
         {
             List<Produto> produtos = await _produtoService.BuscarTodosProdutos();
+            if (produtos == null)
+            {
+                return NotFound("Produto(s) não encontrado(s)");
+            }
             return Ok(produtos);
         }
 
@@ -29,6 +33,10 @@ namespace Api.Controllers
         public async Task<ActionResult<Produto>> BuscarPorId(int id)
         {
             Produto produto = await _produtoService.BuscarPorId(id);
+            if (produto == null)
+            {
+                return NotFound("Produto não encontrado");
+            }
             return Ok(produto);
         }
 
@@ -36,14 +44,18 @@ namespace Api.Controllers
         public async Task<ActionResult<Produto>> Adicionar([FromBody] Produto produto)
         {
             Produto produtoAdicionar = await _produtoService.Adicionar(produto);
-            return Ok(produtoAdicionar);
+            var url = Url.Action(nameof(BuscarPorId), new { id = produtoAdicionar.ProdutoId }) ?? $"/{produtoAdicionar.ProdutoId}";
+            return Created(url, produtoAdicionar); ;
         }
 
         [HttpPut("{id}")]
         public async Task<ActionResult<Produto>> Atualizar([FromBody] Produto produto, int id)
         {
-            produto.ProdutoId = id;
             Produto produtoAtualizar = await _produtoService.Atualizar(id, produto);
+            if (produtoAtualizar == null)
+            {
+                return BadRequest($"Produto com ID {id} não foi encontrado no banco de dados.");
+            }
             return Ok(produtoAtualizar);
         }
 
@@ -51,7 +63,11 @@ namespace Api.Controllers
         public async Task<ActionResult<Produto>> Apagar(int id)
         {
             bool apagado = await _produtoService.Apagar(id);
-            return Ok(apagado);
+            if (!apagado)
+            {
+                return NotFound($"Produto com ID {id} não foi encontrado no banco de dados.");
+            }
+            return Ok("Produto apagado com sucesso");
         }
     }
 }

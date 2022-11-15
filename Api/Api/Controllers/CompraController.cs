@@ -34,9 +34,9 @@ namespace Api.Controllers
             return Ok(compra);
         }
 
-        [Route("adicionar/{idProduto}")]
+        [Route("adicionar")]
         [HttpPost]
-        public async Task<ActionResult> Adicionar([FromBody] Compra compra, int idProduto)
+        public async Task<ActionResult> Adicionar([FromBody] Compra compra)
         {
             var compraAdicionar = await _compraService.Adicionar(compra);
 
@@ -55,15 +55,14 @@ namespace Api.Controllers
         [HttpDelete]
         public async Task<ActionResult> Apagar(int id)
         {
+            
             bool apagado = await _compraService.Apagar(id);
-            if (apagado)
+            if (!apagado)
             {
-                return Ok(apagado);
+                return NotFound($"Compra com ID {id} não foi encontrada no banco de dados.");
             }
-            else
-            {
-                return BadRequest($"Relação de Produtos com ID {id} de Compras não foi encontrada no banco de dados.");
-            }
+            return Ok("Compra apagada com sucesso");
+
         }
     }
 }

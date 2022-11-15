@@ -12,6 +12,7 @@ namespace Api.Helpers
             CreateMap<Compra, CompraDto>();
             CreateMap<Produto, ProdutoDto>();
             CreateMap<Endereco, EnderecoDto>();
+            CreateMap<User, UserDto>();
         }
     }
 }

@@ -21,9 +21,9 @@ namespace Api.Controllers
 
         [Route("buscarTodos")]
         [HttpGet]
-        public async Task<ActionResult<List<User>>> BuscarTodosUsuarios()
+        public async Task<ActionResult> BuscarTodosUsuarios()
         {
-            List<User> users = await _userService.BuscarTodosUsuarios();
+            var users = await _userService.BuscarTodosUsuarios();
             if (users == null)
             {
                 return NotFound("Usuário(s) não encontrado(s)");
@@ -33,9 +33,9 @@ namespace Api.Controllers
 
         [Route("buscarPorId/{id}")]
         [HttpGet]
-        public async Task<ActionResult<User>> BuscarPorId(int id)
+        public async Task<ActionResult> BuscarPorId(int id)
         {
-            User user = await _userService.BuscarPorId(id);
+            var user = await _userService.BuscarPorId(id);
             if (user == null)
             {
                 return NotFound("Usuário não encontrado");
@@ -45,18 +45,18 @@ namespace Api.Controllers
 
         [Route("adicionar")]
         [HttpPost]
-        public async Task<ActionResult<User>> Adicionar([FromBody] User user)
+        public async Task<ActionResult> Adicionar([FromBody] User user)
         {
-            User userAdicionar = await _userService.Adicionar(user);
+            var userAdicionar = await _userService.Adicionar(user);
             var url = Url.Action(nameof(BuscarPorId), new { id = userAdicionar.UserId }) ?? $"/{userAdicionar.UserId}";
             return Created(url, userAdicionar);
         }
 
         [Route("atualizar/{id}")]
         [HttpPut]
-        public async Task<ActionResult<User>> Atualizar([FromBody] User user, int id)
+        public async Task<ActionResult> Atualizar([FromBody] User user, int id)
         {
-            User userAtualizar = await _userService.Atualizar(id, user);
+            var userAtualizar = await _userService.Atualizar(id, user);
             if (userAtualizar == null)
             {
                 return BadRequest($"Usuário com ID {id} não foi encontrado no banco de dados.");
@@ -66,7 +66,7 @@ namespace Api.Controllers
 
         [Route("apagar/{id}")]
         [HttpDelete]
-        public async Task<ActionResult<User>> Apagar(int id)
+        public async Task<ActionResult> Apagar(int id)
         {
             bool apagado = await _userService.Apagar(id);
             if (!apagado)

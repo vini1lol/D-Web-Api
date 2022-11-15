@@ -4,39 +4,65 @@ using Api.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 using System.Text.Json;
+using Api.Dto;
+using AutoMapper;
 
 namespace Api.Services
 {
     public class UserService : IUserService
     {
         private readonly ApplicationDbContext _dbContext;
+        private readonly IMapper _mapper;
 
-        public UserService(ApplicationDbContext dbContext)
+        public UserService(ApplicationDbContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
+            _mapper = mapper;
         }
 
-        public async Task<User> BuscarPorId(int id)
+        public async Task<UserDto> BuscarPorId(int id)
         {
-            return await _dbContext.Users.FirstOrDefaultAsync(x => x.UserId == id);
+            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.UserId == id);
+
+            var dto = new UserDto();
+            if (user != null)
+            {
+                dto = _mapper.Map<UserDto>(user);
+            }
+
+            return dto;
         }
 
-        public async Task<List<User>> BuscarTodosUsuarios()
+        public async Task<List<UserDto>> BuscarTodosUsuarios()
         {
-            return await _dbContext.Users.ToListAsync();
+            var users = await _dbContext.Users.ToListAsync();
+
+            var dtos = new List<UserDto>();
+            if (users != null && users.Any())
+            {
+                foreach (var user in users)
+                {
+                    var dto = _mapper.Map<UserDto>(user);
+                    dtos.Add(dto);
+                }
+            }
+
+            return dtos;
         }
 
-        public async Task<User> Adicionar(User user)
+        public async Task<UserDto> Adicionar(User user)
         {
             await _dbContext.Users.AddAsync(user);
             await _dbContext.SaveChangesAsync();
 
-            return user;
+            var dto = _mapper.Map<UserDto>(user);
+
+            return dto;
         }
 
-        public async Task<User> Atualizar(int id, User user)
+        public async Task<UserDto> Atualizar(int id, User user)
         {
-            User userAlterar = await BuscarPorId(id);
+            var userAlterar = _dbContext.Users.FirstOrDefault(x=> x.UserId == id);
 
             if (userAlterar == null)
             {
@@ -52,12 +78,14 @@ namespace Api.Services
             _dbContext.Users.Update(userAlterar);
             await _dbContext.SaveChangesAsync();
 
-            return userAlterar;
+            var dto = _mapper.Map<UserDto>(user);
+
+            return dto;
         }
 
         public async Task<bool> Apagar(int id)
         {
-            User userApagar = await BuscarPorId(id);
+            User userApagar = _dbContext.Users.FirstOrDefault(x => x.UserId == id);
 
             if (userApagar == null)
             {

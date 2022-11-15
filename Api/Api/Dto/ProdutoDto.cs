@@ -10,5 +10,4 @@
 
         public List<CompraDto>? Compras { get; set; }
     }
-
 }

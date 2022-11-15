@@ -12,12 +12,10 @@ namespace Api.Controllers
     public class CompraController : ControllerBase
     {
         private readonly ICompraService _compraService;
-        private readonly ICompraProdutoService _compraProdutoService;
 
-        public CompraController(ICompraService compraService, ICompraProdutoService compraProdutoService)
+        public CompraController(ICompraService compraService)
         {
             _compraService = compraService;
-            _compraProdutoService = compraProdutoService;
         }
 
         [Route("obterTodas/{idUsuario}")]
@@ -42,8 +40,6 @@ namespace Api.Controllers
         {
             var compraAdicionar = await _compraService.Adicionar(compra);
 
-            await _compraProdutoService.Adicionar(compraAdicionar.CompraId, idProduto);
-
             return Ok(compraAdicionar);
         }
 
@@ -59,10 +55,9 @@ namespace Api.Controllers
         [HttpDelete]
         public async Task<ActionResult> Apagar(int id)
         {
-            bool compraProdutoApagado = await _compraProdutoService.Apagar(id);
-            if (compraProdutoApagado)
+            bool apagado = await _compraService.Apagar(id);
+            if (apagado)
             {
-                bool apagado = await _compraService.Apagar(id);
                 return Ok(apagado);
             }
             else

@@ -34,7 +34,7 @@ namespace Api.Services
 
         public async Task<List<ProdutoDto>> BuscarTodosProdutos()
         {
-            var produtos =    await _dbContext.Produtos.ToListAsync();
+            var produtos = await _dbContext.Produtos.ToListAsync();
 
             var dtos = new List<ProdutoDto>();
             foreach (var produto in produtos)
@@ -49,17 +49,24 @@ namespace Api.Services
 
         public async Task<ProdutoDto> Adicionar(Produto produto)
         {
-            await _dbContext.Produtos.AddAsync(produto);
+            await _dbContext.AddAsync(produto);
             await _dbContext.SaveChangesAsync();
 
-            var dto = _mapper.Map<ProdutoDto>(produto);
+            var dto = new ProdutoDto()
+            {
+                Descricao = produto.Descricao,
+                Nome = produto.Nome,
+                ProdutoId = produto.ProdutoId,
+                Preco = produto.Preco,
+                Status = produto.Status
+            };
 
             return dto;
         }
 
         public async Task<ProdutoDto> Atualizar(int id, Produto produto)
         {
-            var produtoAlterar = _dbContext.Produtos.FirstOrDefault(x=> x.ProdutoId == id);
+            var produtoAlterar = _dbContext.Produtos.FirstOrDefault(x => x.ProdutoId == id);
 
             if (produtoAlterar == null)
             {

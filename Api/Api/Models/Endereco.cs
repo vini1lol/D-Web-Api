@@ -19,5 +19,10 @@ namespace Api.Models
 
         [ForeignKey(nameof(UserId))]
         public User? Users { get; set; }
+
+        public Endereco()
+        {
+            Ativo = true;
+        }
     }
 }

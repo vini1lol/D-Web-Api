@@ -27,7 +27,14 @@ namespace Api.Services
                 throw new Exception($"Produto com ID {id} não foi encontrado no banco de dados.");
             }
 
-            var dto = _mapper.Map<ProdutoDto>(produto);
+            var dto = new ProdutoDto()
+            {
+                Descricao = produto.Descricao,
+                Nome = produto.Nome,
+                ProdutoId = produto.ProdutoId,
+                Preco = produto.Preco,
+                Status = produto.Status
+            };
 
             return dto;
         }
@@ -39,7 +46,14 @@ namespace Api.Services
             var dtos = new List<ProdutoDto>();
             foreach (var produto in produtos)
             {
-                var dto = _mapper.Map<ProdutoDto>(produto);
+                var dto = new ProdutoDto()
+                {
+                    Descricao = produto.Descricao,
+                    Nome = produto.Nome,
+                    ProdutoId = produto.ProdutoId,
+                    Preco = produto.Preco,
+                    Status = produto.Status
+                };
 
                 dtos.Add(dto);
             }
@@ -80,7 +94,14 @@ namespace Api.Services
             _dbContext.Produtos.Update(produtoAlterar);
             await _dbContext.SaveChangesAsync();
 
-            var dto = _mapper.Map<ProdutoDto>(produtoAlterar);
+            var dto = new ProdutoDto()
+            {
+                Descricao = produtoAlterar.Descricao,
+                Nome = produtoAlterar.Nome,
+                ProdutoId = produtoAlterar.ProdutoId,
+                Preco = produtoAlterar.Preco,
+                Status = produtoAlterar.Status
+            };
 
             return dto;
         }

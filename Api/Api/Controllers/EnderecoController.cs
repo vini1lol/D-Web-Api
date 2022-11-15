@@ -3,6 +3,7 @@ using Api.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Api.Controllers
 {
@@ -47,7 +48,11 @@ namespace Api.Controllers
         public async Task<ActionResult> Apagar(int id)
         {
             bool apagado = await _enderecoService.Apagar(id);
-            return Ok(apagado);
+            if (!apagado)
+            {
+                return NotFound($"Endereço com ID {id} não foi encontrado no banco de dados.");
+            }
+            return Ok("Endereço apagado com sucesso");
         }
     }
 }

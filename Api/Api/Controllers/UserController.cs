@@ -17,6 +17,7 @@ namespace Api.Controllers
             _userService = userService;
         }
 
+        [Route("buscarTodos")]
         [HttpGet]
         public async Task<ActionResult<List<User>>> BuscarTodosUsuarios()
         {
@@ -28,7 +29,8 @@ namespace Api.Controllers
             return Ok(users);
         }
 
-        [HttpGet("{id}")]
+        [Route("buscarPorId/{id}")]
+        [HttpGet]
         public async Task<ActionResult<User>> BuscarPorId(int id)
         {
             User user = await _userService.BuscarPorId(id);
@@ -39,6 +41,7 @@ namespace Api.Controllers
             return Ok(user);
         }
 
+        [Route("adicionar")]
         [HttpPost]
         public async Task<ActionResult<User>> Adicionar([FromBody] User user)
         {
@@ -47,7 +50,8 @@ namespace Api.Controllers
             return Created(url, userAdicionar);
         }
 
-        [HttpPut("{id}")]
+        [Route("atualizar/{id}")]
+        [HttpPut]
         public async Task<ActionResult<User>> Atualizar([FromBody] User user, int id)
         {
             User userAtualizar = await _userService.Atualizar(id, user);
@@ -58,7 +62,8 @@ namespace Api.Controllers
             return Ok(userAtualizar);
         }
 
-        [HttpDelete("{id}")]
+        [Route("apagar/{id}")]
+        [HttpDelete]
         public async Task<ActionResult<User>> Apagar(int id)
         {
             bool apagado = await _userService.Apagar(id);

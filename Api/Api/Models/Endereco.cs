@@ -15,6 +15,7 @@ namespace Api.Models
         public string Cidade { get; set; }
         public string Estado { get; set; }
         public int UserId { get; set; }
+        public bool Ativo { get; set; }
 
         [ForeignKey(nameof(UserId))]
         public User? Users { get; set; }

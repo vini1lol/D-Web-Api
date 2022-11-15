@@ -18,8 +18,9 @@ namespace Api.Controllers
             _produtoService = produtoService;
         }
 
+        [Route("buscarTodos")]
         [HttpGet]
-        public async Task<ActionResult<List<Produto>>> BuscarTodosProdutos()
+        public async Task<ActionResult> BuscarTodosProdutos()
         {
             List<Produto> produtos = await _produtoService.BuscarTodosProdutos();
             if (produtos == null)
@@ -29,7 +30,8 @@ namespace Api.Controllers
             return Ok(produtos);
         }
 
-        [HttpGet("{id}")]
+        [Route("buscarPorId/{id}")]
+        [HttpGet]
         public async Task<ActionResult<Produto>> BuscarPorId(int id)
         {
             Produto produto = await _produtoService.BuscarPorId(id);
@@ -40,6 +42,7 @@ namespace Api.Controllers
             return Ok(produto);
         }
 
+        [Route("adicionar")]
         [HttpPost]
         public async Task<ActionResult<Produto>> Adicionar([FromBody] Produto produto)
         {
@@ -48,7 +51,8 @@ namespace Api.Controllers
             return Created(url, produtoAdicionar); ;
         }
 
-        [HttpPut("{id}")]
+        [Route("atualizar/{id}")]
+        [HttpPut]
         public async Task<ActionResult<Produto>> Atualizar([FromBody] Produto produto, int id)
         {
             Produto produtoAtualizar = await _produtoService.Atualizar(id, produto);
@@ -59,7 +63,8 @@ namespace Api.Controllers
             return Ok(produtoAtualizar);
         }
 
-        [HttpDelete("{id}")]
+        [Route("apagar/{id}")]
+        [HttpDelete]
         public async Task<ActionResult<Produto>> Apagar(int id)
         {
             bool apagado = await _produtoService.Apagar(id);

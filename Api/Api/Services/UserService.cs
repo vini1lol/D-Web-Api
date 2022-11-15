@@ -64,7 +64,9 @@ namespace Api.Services
                 return false;
             }
 
-            _dbContext.Users.Remove(userApagar);
+            userApagar.Ativo = false;
+
+            _dbContext.Update(userApagar);
             await _dbContext.SaveChangesAsync();
 
             return true;

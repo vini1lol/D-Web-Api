@@ -1,5 +1,6 @@
 ﻿using Api.Models;
 using Api.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,6 +8,7 @@ namespace Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class CompraController : ControllerBase
     {
         private readonly ICompraService _compraService;
@@ -18,39 +20,44 @@ namespace Api.Controllers
             _compraProdutoService = compraProdutoService;
         }
 
-        [HttpGet("{idUsuario}")]
-        public async Task<ActionResult<List<Compra>>> BuscarTodasCompras(int idUsuario)
+        [Route("obterTodas/{idUsuario}")]
+        [HttpGet]
+        public async Task<ActionResult> BuscarTodasCompras(int idUsuario)
         {
-            List<Compra> compras = await _compraService.BuscarTodasCompras(idUsuario);
+            var compras = await _compraService.BuscarTodasCompras(idUsuario);
             return Ok(compras);
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Compra>> BuscarPorId(int id)
+        [Route("obterPorId/{id}")]
+        [HttpGet]
+        public async Task<ActionResult> BuscarPorId(int id)
         {
-            Compra compra = await _compraService.BuscarPorId(id);
+            var compra = await _compraService.BuscarPorId(id);
             return Ok(compra);
         }
 
-        [HttpPost("{idProduto}")]
-        public async Task<ActionResult<Compra>> Adicionar([FromBody] Compra compra, int idProduto)
+        [Route("adicionar/{idProduto}")]
+        [HttpPost]
+        public async Task<ActionResult> Adicionar([FromBody] Compra compra, int idProduto)
         {
-            Compra compraAdicionar = await _compraService.Adicionar(compra);
+            var compraAdicionar = await _compraService.Adicionar(compra);
 
             await _compraProdutoService.Adicionar(compraAdicionar.CompraId, idProduto);
 
             return Ok(compraAdicionar);
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult<Compra>> Atualizar([FromBody] Compra compra, int id)
+        [Route("atualizar/{id}")]
+        [HttpPut]
+        public async Task<ActionResult> Atualizar([FromBody] Compra compra, int id)
         {
-            Compra compraAtualizar = await _compraService.Atualizar(id, compra);
+            var compraAtualizar = await _compraService.Atualizar(id, compra);
             return Ok(compraAtualizar);
         }
 
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<Compra>> Apagar(int id)
+        [Route("apagar/{id}")]
+        [HttpDelete]
+        public async Task<ActionResult> Apagar(int id)
         {
             bool compraProdutoApagado = await _compraProdutoService.Apagar(id);
             if (compraProdutoApagado)

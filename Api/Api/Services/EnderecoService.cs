@@ -63,7 +63,9 @@ namespace Api.Services
                 throw new Exception($"Endereço com ID {id} não foi encontrado no banco de dados.");
             }
 
-            _dbContext.Enderecos.Remove(enderecoApagar);
+            enderecoApagar.Ativo = false;
+
+            _dbContext.Update(enderecoApagar);
             await _dbContext.SaveChangesAsync();
 
             return true;

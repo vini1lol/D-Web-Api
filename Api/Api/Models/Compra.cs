@@ -11,11 +11,17 @@ namespace Api.Models
         public int Quantidade { get; set; }
         public DateTime DataCadastro { get; set; }
         public int UserId { get; set; }
+        public bool Ativo { get; set; }
+
 
         [ForeignKey(nameof(UserId))]
         public User? User { get; set; }
-        
-        public IEnumerable<CompraProduto>? CompraProdutos { get; set; }
 
+        public IEnumerable<Produto>? Produtos { get; set; }
+
+        public Compra()
+        {
+            Ativo = true;
+        }
     }
 }

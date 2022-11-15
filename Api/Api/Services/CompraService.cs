@@ -2,6 +2,7 @@
 using Api.Dto;
 using Api.Models;
 using Api.Services.Interfaces;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using System.Security.Claims;
@@ -11,10 +12,12 @@ namespace Api.Services
     public class CompraService : ICompraService
     {
         private readonly ApplicationDbContext _dbContext;
+        private readonly IMapper _mapper;
 
-        public CompraService(ApplicationDbContext dbContext)
+        public CompraService(ApplicationDbContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
+            _mapper = mapper;
         }
 
         public async Task<CompraDto> BuscarPorId(int id)
@@ -29,27 +32,17 @@ namespace Api.Services
             {
                 var produtosDto = new List<ProdutoDto>();
 
-                if (compra.Produtos!= null && compra.Produtos.Any())
+                if (compra.Produtos != null && compra.Produtos.Any())
                 {
-                    foreach(var produto in compra.Produtos)
+                    foreach (var produto in compra.Produtos)
                     {
-                        var produtodto = new ProdutoDto()
-                        {
-                            Descricao= produto.Descricao,
-                            Nome = produto.Nome,
-                            Preco = produto.Preco,
-                            ProdutoId = produto.ProdutoId,
-                            Status = produto.Status
-                        };
+                        var produtodto = _mapper.Map<ProdutoDto>(produto);
+
+                        produtosDto.Add(produtodto);
                     }
                 }
 
-
-                dto.CompraId = compra.CompraId;
-                dto.DataCadastro = compra.DataCadastro;
-                dto.Quantidade = compra.Quantidade;
-                dto.UserId = compra.UserId;
-                dto.UserName = compra.User.UserName;
+                dto = _mapper.Map<CompraDto>(compra);
                 dto.Produtos = produtosDto;
             }
 
@@ -67,14 +60,9 @@ namespace Api.Services
             {
                 foreach (var compra in compras)
                 {
-                    var dto = new CompraDto()
-                    {
-                        CompraId = compra.CompraId,
-                        DataCadastro = compra.DataCadastro,
-                        Quantidade = compra.Quantidade,
-                        UserId = compra.UserId,
-                        UserName = compra.User.UserName
-                    };
+                    var dto = _mapper.Map<CompraDto>(compra);
+
+                    dtos.Add(dto);
                 }
             }
 
@@ -86,14 +74,7 @@ namespace Api.Services
             await _dbContext.AddAsync(compra);
             await _dbContext.SaveChangesAsync();
 
-            var dto = new CompraDto()
-            {
-                CompraId = compra.CompraId,
-                DataCadastro = compra.DataCadastro,
-                Quantidade = compra.Quantidade,
-                UserId = compra.UserId,
-                UserName = compra.User.UserName
-            };
+            var dto = _mapper.Map<CompraDto>(compra);
 
             return dto;
         }
@@ -101,9 +82,9 @@ namespace Api.Services
         public async Task<CompraDto> Atualizar(int id, Compra compra)
         {
             var compraAlterar = _dbContext.Compras
-                .Include(x=> x.User)
-                .Include(x=> x.Produtos)
-                .FirstOrDefault(x=> x.CompraId == id);
+                .Include(x => x.User)
+                .Include(x => x.Produtos)
+                .FirstOrDefault(x => x.CompraId == id);
 
             if (compraAlterar == null)
             {
@@ -122,26 +103,14 @@ namespace Api.Services
             {
                 foreach (var produto in compraAlterar.Produtos)
                 {
-                    var produtodto = new ProdutoDto()
-                    {
-                        Descricao = produto.Descricao,
-                        Nome = produto.Nome,
-                        Preco = produto.Preco,
-                        ProdutoId = produto.ProdutoId,
-                        Status = produto.Status
-                    };
+                    var produtodto = _mapper.Map<ProdutoDto>(produto);
+
+                    produtosDto.Add(produtodto);
                 }
             }
 
-            var dto = new CompraDto()
-            {
-                CompraId= compraAlterar.CompraId,
-                DataCadastro = compraAlterar.DataCadastro,
-                Quantidade = compraAlterar.Quantidade,
-                UserId = compraAlterar.UserId,
-                UserName = compraAlterar.User.UserName,
-                Produtos = produtosDto
-            };
+            var dto = _mapper.Map<CompraDto>(compraAlterar);
+            dto.Produtos = produtosDto;
 
             return dto;
         }

@@ -1,6 +1,8 @@
 ﻿using Api.Context;
+using Api.Dto;
 using Api.Models;
 using Api.Services.Interfaces;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
 namespace Api.Services
@@ -8,33 +10,53 @@ namespace Api.Services
     public class EnderecoService : IEnderecoService
     {
         private readonly ApplicationDbContext _dbContext;
+        private readonly IMapper _mapper;
 
-        public EnderecoService(ApplicationDbContext dbContext)
+        public EnderecoService(ApplicationDbContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
+            _mapper = mapper;
         }
 
-        public async Task<Endereco> BuscarPorId(int id)
+        public async Task<EnderecoDto> BuscarPorId(int id)
         {
-            return await _dbContext.Enderecos.FirstOrDefaultAsync(x => x.EnderecoId == id);
+            var endereco = await _dbContext.Enderecos.FirstOrDefaultAsync(x => x.EnderecoId == id);
+
+            var dto = new EnderecoDto();
+            if(endereco != null)
+            {
+                dto = _mapper.Map<EnderecoDto>(endereco);
+            }
+            
+            return dto;
         }
 
-        public async Task<Endereco> BuscarPorIdUsuario(int idUsuario)
+        public async Task<EnderecoDto> BuscarPorIdUsuario(int idUsuario)
         {
-            return await _dbContext.Enderecos.FirstOrDefaultAsync(x => x.UserId == idUsuario);
+            var endereco =   await _dbContext.Enderecos.FirstOrDefaultAsync(x => x.UserId == idUsuario);
+            
+            var dto = new EnderecoDto();
+            if (endereco != null)
+            {
+                dto = _mapper.Map<EnderecoDto>(endereco);
+            }
+
+            return dto;
         }
 
-        public async Task<Endereco> Adicionar(Endereco endereco)
+        public async Task<EnderecoDto> Adicionar(Endereco endereco)
         {
-            await _dbContext.Enderecos.AddAsync(endereco);
+            await _dbContext.AddAsync(endereco);
             await _dbContext.SaveChangesAsync();
 
-            return endereco;
+            var dto = _mapper.Map<EnderecoDto>(endereco);
+
+            return dto;
         }
 
-        public async Task<Endereco> Atualizar(int id, Endereco endereco)
+        public async Task<EnderecoDto> Atualizar(int id, Endereco endereco)
         {
-            Endereco enderecoAlterar = await BuscarPorId(id);
+            Endereco enderecoAlterar = _dbContext.Enderecos.FirstOrDefault(x => x.EnderecoId == id);
 
             if (enderecoAlterar == null)
             {
@@ -51,12 +73,14 @@ namespace Api.Services
             _dbContext.Enderecos.Update(enderecoAlterar);
             await _dbContext.SaveChangesAsync();
 
-            return enderecoAlterar;
+            var dto = _mapper.Map<EnderecoDto>(enderecoAlterar)
+
+            return dto;
         }
 
         public async Task<bool> Apagar(int id)
         {
-            Endereco enderecoApagar = await BuscarPorId(id);
+            var enderecoApagar = _dbContext.Enderecos.FirstOrDefault(x=> x.EnderecoId == id);
 
             if (enderecoApagar == null)
             {

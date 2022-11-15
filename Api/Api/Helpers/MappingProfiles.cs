@@ -14,7 +14,8 @@ namespace Api.Helpers
             CreateMap<Produto, ProdutoDto>(MemberList.None)
                 .ForSourceMember(x=> x.Compras, opt=> opt.DoNotValidate());
             CreateMap<Endereco, EnderecoDto>();
-            CreateMap<User, UserDto>();
+            CreateMap<User, UserDto>()
+                .ForSourceMember(x=> x.Endereco, opt=> opt.DoNotValidate());
         }
     }
 }

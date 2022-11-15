@@ -9,9 +9,9 @@ namespace Api.Helpers
     {
         public MappingProfiles()
         {
-            CreateMap<Compra, CompraDto>()
+            CreateMap<Compra, CompraDto>(MemberList.None)
                 .ForSourceMember(x => x.Produtos, opt => opt.DoNotValidate());
-            CreateMap<Produto, ProdutoDto>()
+            CreateMap<Produto, ProdutoDto>(MemberList.None)
                 .ForSourceMember(x=> x.Compras, opt=> opt.DoNotValidate());
             CreateMap<Endereco, EnderecoDto>();
             CreateMap<User, UserDto>();

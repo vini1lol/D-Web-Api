@@ -9,6 +9,7 @@ namespace Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ProdutoController : ControllerBase
     {
         private readonly IProdutoService _produtoService;
@@ -22,7 +23,7 @@ namespace Api.Controllers
         [HttpGet]
         public async Task<ActionResult> BuscarTodosProdutos()
         {
-            List<Produto> produtos = await _produtoService.BuscarTodosProdutos();
+            var produtos = await _produtoService.BuscarTodosProdutos();
             if (produtos == null)
             {
                 return NotFound("Produto(s) não encontrado(s)");
@@ -32,9 +33,9 @@ namespace Api.Controllers
 
         [Route("buscarPorId/{id}")]
         [HttpGet]
-        public async Task<ActionResult<Produto>> BuscarPorId(int id)
+        public async Task<ActionResult> BuscarPorId(int id)
         {
-            Produto produto = await _produtoService.BuscarPorId(id);
+            var produto = await _produtoService.BuscarPorId(id);
             if (produto == null)
             {
                 return NotFound("Produto não encontrado");
@@ -44,18 +45,18 @@ namespace Api.Controllers
 
         [Route("adicionar")]
         [HttpPost]
-        public async Task<ActionResult<Produto>> Adicionar([FromBody] Produto produto)
+        public async Task<ActionResult> Adicionar([FromBody] Produto produto)
         {
-            Produto produtoAdicionar = await _produtoService.Adicionar(produto);
+            var produtoAdicionar = await _produtoService.Adicionar(produto);
             var url = Url.Action(nameof(BuscarPorId), new { id = produtoAdicionar.ProdutoId }) ?? $"/{produtoAdicionar.ProdutoId}";
             return Created(url, produtoAdicionar); ;
         }
 
         [Route("atualizar/{id}")]
         [HttpPut]
-        public async Task<ActionResult<Produto>> Atualizar([FromBody] Produto produto, int id)
+        public async Task<ActionResult> Atualizar([FromBody] Produto produto, int id)
         {
-            Produto produtoAtualizar = await _produtoService.Atualizar(id, produto);
+            var produtoAtualizar = await _produtoService.Atualizar(id, produto);
             if (produtoAtualizar == null)
             {
                 return BadRequest($"Produto com ID {id} não foi encontrado no banco de dados.");
@@ -65,7 +66,7 @@ namespace Api.Controllers
 
         [Route("apagar/{id}")]
         [HttpDelete]
-        public async Task<ActionResult<Produto>> Apagar(int id)
+        public async Task<ActionResult> Apagar(int id)
         {
             bool apagado = await _produtoService.Apagar(id);
             if (!apagado)

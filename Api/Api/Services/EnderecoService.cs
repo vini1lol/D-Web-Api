@@ -73,7 +73,7 @@ namespace Api.Services
             _dbContext.Enderecos.Update(enderecoAlterar);
             await _dbContext.SaveChangesAsync();
 
-            var dto = _mapper.Map<EnderecoDto>(enderecoAlterar)
+            var dto = _mapper.Map<EnderecoDto>(enderecoAlterar);
 
             return dto;
         }

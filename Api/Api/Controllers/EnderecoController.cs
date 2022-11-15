@@ -20,31 +20,31 @@ namespace Api.Controllers
 
         [Route("buscarPorUserId/{idUsuario}")]
         [HttpGet]
-        public async Task<ActionResult<Endereco>> BuscarPorIdUsuario(int idUsuario)
+        public async Task<ActionResult> BuscarPorIdUsuario(int idUsuario)
         {
-            Endereco endereco = await _enderecoService.BuscarPorIdUsuario(idUsuario);
+            var endereco = await _enderecoService.BuscarPorIdUsuario(idUsuario);
             return Ok(endereco);
         }
 
         [Route("adicionar")]
         [HttpPost]
-        public async Task<ActionResult<Endereco>> Adicionar([FromBody] Endereco endereco)
+        public async Task<ActionResult> Adicionar([FromBody] Endereco endereco)
         {
-            Endereco enderecoAdicionar = await _enderecoService.Adicionar(endereco);
+            var enderecoAdicionar = await _enderecoService.Adicionar(endereco);
             return Ok(enderecoAdicionar);
         }
 
         [Route("atualizar/{id}")]
         [HttpPut]
-        public async Task<ActionResult<Endereco>> Atualizar([FromBody] Endereco endereco, int id)
+        public async Task<ActionResult> Atualizar([FromBody] Endereco endereco, int id)
         {
-            Endereco enderecoAtualizar = await _enderecoService.Atualizar(id, endereco);
+            var enderecoAtualizar = await _enderecoService.Atualizar(id, endereco);
             return Ok(enderecoAtualizar);
         }
 
         [Route("apagar/{id}")]
         [HttpDelete]
-        public async Task<ActionResult<Endereco>> Apagar(int id)
+        public async Task<ActionResult> Apagar(int id)
         {
             bool apagado = await _enderecoService.Apagar(id);
             return Ok(apagado);

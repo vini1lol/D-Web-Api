@@ -14,7 +14,6 @@ namespace Api.Context
         public DbSet<Endereco> Enderecos {get;set;}
         public DbSet<Compra> Compras {get;set;}
         public DbSet<Produto> Produtos {get;set;}
-        public DbSet<CompraProduto> CompraProdutos { get;set;}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

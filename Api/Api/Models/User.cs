@@ -16,5 +16,10 @@ namespace Api.Models
         public Endereco? Endereco { get; set; }
         public bool Ativo { get; set; }
         public IEnumerable<Compra>? Compras { get; set; }
+
+        public User()
+        {
+            Ativo = true;
+        }
     }
 }

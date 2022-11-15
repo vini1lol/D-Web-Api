@@ -26,7 +26,6 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddDbContext<ApplicationDbContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 
 builder.Services.AddScoped<IProdutoService, ProdutoService>();
-builder.Services.AddScoped<ICompraProdutoService, CompraProdutoService>();
 builder.Services.AddScoped<ICompraService, CompraService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IEnderecoService, EnderecoService>();

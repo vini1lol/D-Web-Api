@@ -1,4 +1,5 @@
 ﻿using Api.Context;
+using Api.Dto;
 using Api.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -24,7 +25,7 @@ namespace Api.Controllers
 
         [Route("getToken")]
         [HttpPost]
-        public async Task<ActionResult> Post(User user)
+        public async Task<ActionResult> Post(UserTokenDto user)
         {
             if (user != null && user.UserName != null && user.Password != null)
             {
@@ -38,7 +39,6 @@ namespace Api.Controllers
                         new Claim(JwtRegisteredClaimNames.Sub, jwt.Subject ),
                         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                         new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
-                        new Claim("Id", user.UserId.ToString()),
                         new Claim("UserName", user.UserName)
                     };
 

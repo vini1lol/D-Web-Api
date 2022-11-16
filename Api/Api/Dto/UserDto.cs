@@ -13,4 +13,10 @@ namespace Api.Dto
         public EnderecoDto? Endereco { get; set; }
         public bool Ativo { get; set; }
     }
+
+    public class UserTokenDto
+    {
+        public string UserName { get; set; }
+        public string Password { get; set; }
+    }
 }

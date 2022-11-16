@@ -22,6 +22,7 @@ namespace Api.Controllers
             _context = applicationDbContext;
         }
 
+        [Route("getToken")]
         [HttpPost]
         public async Task<ActionResult> Post(User user)
         {
@@ -66,6 +67,7 @@ namespace Api.Controllers
             }
         }
 
+        [Route("getUser")]
         [HttpGet]
         public async Task<User> GetUser(string userName, string password)
         {

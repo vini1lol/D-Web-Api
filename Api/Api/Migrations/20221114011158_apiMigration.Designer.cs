@@ -4,6 +4,7 @@ using Api.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221114011158_apiMigration")]
+    partial class apiMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,9 +31,6 @@ namespace Api.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CompraId"), 1L, 1);
-
-                    b.Property<bool>("Ativo")
-                        .HasColumnType("bit");
 
                     b.Property<DateTime>("DataCadastro")
                         .HasColumnType("datetime2");
@@ -49,6 +48,29 @@ namespace Api.Migrations
                     b.ToTable("Compras");
                 });
 
+            modelBuilder.Entity("Api.Models.CompraProduto", b =>
+                {
+                    b.Property<int>("CompraProdutoId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CompraProdutoId"), 1L, 1);
+
+                    b.Property<int>("CompraId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProdutoId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CompraProdutoId");
+
+                    b.HasIndex("CompraId");
+
+                    b.HasIndex("ProdutoId");
+
+                    b.ToTable("CompraProdutos");
+                });
+
             modelBuilder.Entity("Api.Models.Endereco", b =>
                 {
                     b.Property<int>("EnderecoId")
@@ -56,9 +78,6 @@ namespace Api.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EnderecoId"), 1L, 1);
-
-                    b.Property<bool>("Ativo")
-                        .HasColumnType("bit");
 
                     b.Property<string>("Bairro")
                         .IsRequired()
@@ -135,9 +154,6 @@ namespace Api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"), 1L, 1);
 
-                    b.Property<bool>("Ativo")
-                        .HasColumnType("bit");
-
                     b.Property<DateTime>("DataNascimento")
                         .HasColumnType("datetime2");
 
@@ -163,21 +179,6 @@ namespace Api.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("CompraProduto", b =>
-                {
-                    b.Property<int>("ComprasCompraId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProdutosProdutoId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ComprasCompraId", "ProdutosProdutoId");
-
-                    b.HasIndex("ProdutosProdutoId");
-
-                    b.ToTable("CompraProduto");
-                });
-
             modelBuilder.Entity("Api.Models.Compra", b =>
                 {
                     b.HasOne("Api.Models.User", "User")
@@ -187,6 +188,25 @@ namespace Api.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Api.Models.CompraProduto", b =>
+                {
+                    b.HasOne("Api.Models.Compra", "Compras")
+                        .WithMany("CompraProdutos")
+                        .HasForeignKey("CompraId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Api.Models.Produto", "Produtos")
+                        .WithMany("CompraProdutos")
+                        .HasForeignKey("ProdutoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Compras");
+
+                    b.Navigation("Produtos");
                 });
 
             modelBuilder.Entity("Api.Models.Endereco", b =>
@@ -200,19 +220,14 @@ namespace Api.Migrations
                     b.Navigation("Users");
                 });
 
-            modelBuilder.Entity("CompraProduto", b =>
+            modelBuilder.Entity("Api.Models.Compra", b =>
                 {
-                    b.HasOne("Api.Models.Compra", null)
-                        .WithMany()
-                        .HasForeignKey("ComprasCompraId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("CompraProdutos");
+                });
 
-                    b.HasOne("Api.Models.Produto", null)
-                        .WithMany()
-                        .HasForeignKey("ProdutosProdutoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+            modelBuilder.Entity("Api.Models.Produto", b =>
+                {
+                    b.Navigation("CompraProdutos");
                 });
 
             modelBuilder.Entity("Api.Models.User", b =>

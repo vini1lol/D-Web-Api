@@ -122,7 +122,7 @@ namespace Api.Services
 
             if (compraApagar == null)
             {
-                throw new Exception($"Compra com ID {id} não foi encontrada no banco de dados.");
+                return false;
             }
 
             compraApagar.Ativo = false;

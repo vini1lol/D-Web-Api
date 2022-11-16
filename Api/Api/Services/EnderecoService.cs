@@ -84,7 +84,7 @@ namespace Api.Services
 
             if (enderecoApagar == null)
             {
-                throw new Exception($"Endereço com ID {id} não foi encontrado no banco de dados.");
+                return false;
             }
 
             enderecoApagar.Ativo = false;
